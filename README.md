@@ -1,1 +1,0 @@
-# Beaconsniffer v2
