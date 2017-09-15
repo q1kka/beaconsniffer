@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>kaikka</groupId>
-    <artifactId>beaconhue</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>org.jyu.5k</groupId>
+    <artifactId>presenceparser</artifactId>
+    <version>0.5-beta</version>
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -18,6 +18,12 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
     <build>
@@ -37,7 +43,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>presenceparser.Main</mainClass>
+                            <mainClass>parser.ParserMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

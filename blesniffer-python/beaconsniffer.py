@@ -16,7 +16,9 @@ hcitool = "sudo hcitool -i " + hci + " lescan --whitelist --duplicates > /dev/nu
 # local redis database
 red = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-config = ["beaconsniffer.conf"]
+fileDir = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
+filename = os.path.join(fileDir, 'configurations.conf')
+config = [filename]
 
 # identifiers is "ID2-ID3"
 macs, reversemacs, identifiers = [[], [], []]
