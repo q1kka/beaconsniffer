@@ -1,20 +1,13 @@
-package parser;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPubSub;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
+
+import java.io.File;
+import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -25,10 +18,9 @@ import org.json.simple.parser.ParseException;
  * @version 16.09.2017
  */
 public class ParserMain {
-    // Symlinked beacon configurations
+    // parser.Beacon configurations
     private static String configurationFile = "configurations.conf";
-    // Time waited until beacon is marked as absent
-    private static int absentInterval = 30;
+
     // Redis configurations
     private static final String JEDIS_SERVER = "localhost";
 
@@ -82,7 +74,7 @@ public class ParserMain {
                 String mac = beaconObj.get("mac").toString();
                 Beacon newBeacon = new Beacon(id3, id2, mac);
                 beaconList.add(newBeacon);
-                System.out.println("Beacon: " + mac + " - " + id3 + "-" + id2 + " added");
+                System.out.println("parser.Beacon: " + mac + " - " + id3 + "-" + id2 + " added");
             }
         } catch (Exception e) {
             System.out.println("FATAL: Configuration file with valid syntax not found.");
