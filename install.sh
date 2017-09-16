@@ -2,13 +2,19 @@
 echo "This script will install beaconsniffer software stack to fresh raspberry pi zero"
 echo "ATTENTION: external configuration file must be double checked"
 read -p "Press enter to continue"
-echo "Updating Raspberry Pi"
 sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get dist-upgrade -y
-echo "Update done"
+clear
+read -p "Update Raspberry Pi? (y/n)" update
+case "$update" in
+  y|Y ) sudo apt-get upgrade && sudo apt-get dist-upgrade;;
+  n|N ) echo "skipped update";;
+  *  ) echo "invalid";;
+esac
+echo "Updating done"
 echo "Downloading and installing screen"
-sudo apt-get install screen
+sudo apt-get install screen -y
+echo "Downloading and installing redis"
+sudo apt-get install redis-server -y
 echo "Downloading and installing python & pip"
 sudo apt-get install python python-pip -y
 echo "Installing dependencies for python"
@@ -25,7 +31,7 @@ echo "Downloading and installing node dependencies"
 sleep 2
 sudo npm install mqtt --save
 sudo npm install redis
-sudo npm instal forever -G
+sudo npm install forever -g
 echo "Dependencies satisfied, proceed to configuration"
 sleep 3
 clear
@@ -35,5 +41,6 @@ case "$choice" in
   n|N ) echo "skipped crontab editing";;
   * ) echo "invalid";;
 esac
-
-java -jar /home/pi/beaconhue.jar
+clear
+read -p "Installation done, press enter to reboot"
+sudo reboot -h now
