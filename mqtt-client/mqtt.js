@@ -1,6 +1,5 @@
 var mqtt = require('mqtt');
-var mqttclient  = mqtt.connect(mqttaddress);
-var mqtttopic = config.mqtttopic;
+var mqttclient  = mqtt.connect("mqtt://192.168.33.1");
 
 var redis = require("redis");
 var redissub = redis.createClient();
@@ -8,7 +7,6 @@ var redissub = redis.createClient();
 var fs = require('fs');
 var path = require("path");
 var config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'configurations.conf'), 'utf8'));
-var mqttaddress = config.mqttbroker;
 
 var homegroups = followHomegroups();
 
@@ -30,6 +28,7 @@ function followHomegroups() {
 }
 
 redissub.on("message", function (channel, message) {
+    var mqtttopic = config.mqtttopic;
     var homeGroup = channel.replace("-parsed", "");
     var minorid = message.toString().substring(0,1);
     var identifier = homeGroup + "-" + minorid;
