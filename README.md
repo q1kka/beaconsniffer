@@ -33,7 +33,7 @@ To easily install this software to raspberry pi zero proceed as following:
 4.  Install git
 5.  git clone https://github.com/q1kka/beaconsniffer-v2.
 6.  cd beaconsniffer-v2/
-7.  sudo mv template.conf configurations.conf
+7.  cp template.conf configurations.conf
 8.  Modify configurations in configurations.conf
 9.  ./install.sh
 
