@@ -1,0 +1,14 @@
+{
+  "name": "mqtt-client",
+  "version": "0.1",
+  "description": "Listens for Redis publishes and send JSON payloads to MQTT broker",
+  "main": "mqtt.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Kai-Markus Lehtimäki",
+  "dependencies": {
+    "mqtt": "^2.13.0"
+  }
+}
