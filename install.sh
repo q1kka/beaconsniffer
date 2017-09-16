@@ -29,19 +29,11 @@ sudo npm instal forever -G
 echo "Dependencies satisfied, proceed to configuration"
 sleep 3
 clear
-read -p "Start blesniffer on startup (y/n)?" choice
+read -p "Automatically start scripts on boot? (y/n)?" choice
 case "$choice" in
-  y|Y ) blesniffercrontab;;
+  y|Y ) ./startonboot.sh;;
   n|N ) echo "skipped crontab editing";;
   * ) echo "invalid";;
 esac
 
-function blesniffercrontab {
-    crontab -l > cron
-    #echo new cron into cron file
-    echo "@reboot screen -S blesniffer -dm sh -c 'sleep 15; python /home/pi/beaconsniffer-v2/blesniffer-python/beaconsniffer.py; exec bash'" >> cron
-    #install new cron file
-    crontab cron
-    rm mycron
-}
 java -jar /home/pi/beaconhue.jar
