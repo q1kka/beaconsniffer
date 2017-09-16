@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 read -p "Start blesniffer on startup (y/n)?" choice
-case "$choice" in
-  y|Y ) blesniffercrontab;;
-  n|N ) echo "skipped crontab editing";;
-  * ) echo "invalid";;
-esac
 
 function blesniffercrontab {
     crontab -l > cron
@@ -14,3 +9,9 @@ function blesniffercrontab {
     crontab cron
     rm mycron
 }
+
+case "$choice" in
+  y|Y ) blesniffercrontab;;
+  n|N ) echo "skipped crontab editing";;
+  * ) echo "invalid";;
+esac
