@@ -7,7 +7,7 @@ Following dependencies must be installed before deployment:
 ```
 sudo apt-get install nodejs
 sudo apt-get install npm
-sudo apt-get install forever
+sudo npm install forever
 sudo npm install mqtt --save
 sudo npm install redis
 ```
