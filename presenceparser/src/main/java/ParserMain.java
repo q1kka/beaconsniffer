@@ -62,7 +62,9 @@ public class ParserMain {
         JSONParser parser = new JSONParser();
         ArrayList<Beacon> beaconList = new ArrayList<Beacon>();
         File currentDir = new File(".");
-        File configFile = new File(currentDir,configurationFile);;
+        String filePath = currentDir.getAbsolutePath();
+        filePath = filePath.substring(0, filePath.lastIndexOf("presenceparser/."));
+        File configFile = new File(filePath + configurationFile);
         try {
             Object obj = parser.parse(new FileReader(configFile));
             JSONObject jsonObject =  (JSONObject) obj;
