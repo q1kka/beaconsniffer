@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-read -p "Start blesniffer on startup (y/n)?" choice
 
 function blesniffercrontab {
     crontab -l > cron
@@ -9,6 +8,8 @@ function blesniffercrontab {
     crontab cron
     rm mycron
 }
+
+read -p "Start blesniffer on startup (y/n)?" choice
 
 case "$choice" in
   y|Y ) blesniffercrontab;;
