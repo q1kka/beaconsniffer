@@ -1,4 +1,4 @@
-## parser.Beacon configurations
+## Beacon configurations
 All of the software components use the same beacon configurations. These configurations are stored
 on the external JSON file. Configurations must be saved on the root directory of the codes.
 
@@ -26,11 +26,11 @@ For example: If one wants to track two beacons belonging to one project,
 firmware configurations on the beacon should be as following:
 
 ```
-parser.Beacon 1:
+Beacon 1:
 ID2: 32201
 ID3: 1
 
-parser.Beacon 2:
+Beacon 2:
 ID2: 32201
 ID3: 2
 ```
@@ -38,11 +38,11 @@ ID3: 2
 If further provision is needed, one can add more beacons and use different homegroup:
 
 ```
-parser.Beacon 3:
+Beacon 3:
 ID2: 32202
 ID3:1
 
-parser.Beacon 4:
+Beacon 4:
 ID2: 32202
 ID3:1
 ```
