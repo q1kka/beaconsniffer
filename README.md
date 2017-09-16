@@ -46,5 +46,4 @@ Beacon 4:
 ID2: 32202
 ID3:1
 ```
-.
 These configurations must be correct and double checked to prevent any problems on compatibility between software.
