@@ -5,3 +5,4 @@
 /presenceparser/presenceparser.iml
 /configurations.conf
 /node_modules/
+/mqtt-client/node_modules/

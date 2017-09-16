@@ -26,7 +26,7 @@ fi
 read -p "Use mqtt-client module? (y/n)=" MQTT
 if [ "$MQTT" = "y" ]; then
     crontab -l > cron
-    echo "@reboot screen -S mqtt-client -dm sh -c 'sleep 25; cd /home/pi/beaconsniffer-v2/mqtt-client/; forever start mqtt.js; exec bash'" >> cron
+    echo "@reboot screen -S mqtt-client -dm sh -c 'sleep 25; /usr/local/bin/forever start -c /usr/local/bin/node /home/pi/beaconsniffer-v2/mqtt-client/mqtt.js; exec bash'" >> cron
     crontab cron
     rm cron
 else
