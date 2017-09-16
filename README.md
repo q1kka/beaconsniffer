@@ -48,26 +48,9 @@ Minor ID (ID3) identifies unique beacon.
 For example: If one wants to track two beacons belonging to one project,
 firmware configurations on the beacon should be as following:
 
-```
-Beacon 1:
-ID2: 32201
-ID3: 1
+Beacon 1:  ID2 - 32201, ID3 - 1
+Beacon 2: ID2 - 32201, ID3 - 2
 
-Beacon 2:
-ID2: 32201
-ID3: 2
-```
-
-If further provision is needed, one can add more beacons and use different homegroup:
-
-```
-Beacon 3:
-ID2: 32202
-ID3:1
-
-Beacon 4:
-ID2: 32202
-ID3:1
-```
+If further provision is needed, one can add more beacons and use different homegroup.
 These configurations must be correct and double checked to prevent any problems on compatibility between software.
-All of the software components support multiple homegroups at the same time.
+All of the software components must support multiple homegroups at the same time.
