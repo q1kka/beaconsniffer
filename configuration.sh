@@ -9,10 +9,15 @@ function blesniffercrontab {
     rm mycron
 }
 
-read -p "Start blesniffer on startup (y/n)?" choice
+read -p "Start blesniffer on startup (y/n)?" CONT
 
-case "$choice" in
-  y|Y ) blesniffercrontab;;
-  n|N ) echo "skipped crontab editing";;
-  * ) echo "invalid";;
-esac
+if [ "$CONT" = "y" ]; then
+    crontab -l > cron
+    #echo new cron into cron file
+    echo "@reboot screen -S blesniffer -dm sh -c 'sleep 15; python /home/pi/beaconsniffer-v2/blesniffer-python/beaconsniffer.py; exec bash'" >> cron
+    #install new cron file
+    crontab cron
+    rm cron
+else
+  echo "skipped cron setup";
+fi
