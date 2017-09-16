@@ -16,14 +16,30 @@ ID2 and ID3 should be specified according to beacon firmware configuration.
             "id2": "32201",  // ID2 is "homegroup"
             "id3": "1",  // ID3 is "minor id"
             "mac": "0C:F3:EE:0D:82:F5" // MAC of the device
-        }
+        },
         ...
     },
-    "relay": "beaconsniffer-x" // Define relay ID for platform provisioning
+    "relay": "beaconsniffer-x", // Define relay ID for platform provisioning
+    "mqttbroker": "192.168.33.1", // Define mqtt broker if client is used
+    "mqtttopic": "resourcedata"// MQTT topic in which data will be published to
 }
 ```
+## Installation and deployment
+To easily install this software to raspberry pi zero proceed as following:
+```
+1.  Install fresh raspbian distro
+2.  Change default passwd
+3.  Configure networking
+4.  Install git
+5.  git clone https://github.com/q1kka/beaconsniffer-v2.git
+6.  cd beaconsniffer-v2/
+7.  ./install.sh
 
-### Homegroup & Minor ID
+```
+Installation script takes care of dependencies and crontab automatically. When installation
+is done, device must be rebooted.
+
+## Homegroup & Minor ID
 Homegroup (ID2) provisions beacons under identifier specified in beacons firmware.
 Minor ID (ID3) identifies unique beacon.
 
@@ -53,18 +69,3 @@ ID3:1
 ```
 These configurations must be correct and double checked to prevent any problems on compatibility between software.
 All of the software components support multiple homegroups at the same time.
-
-## Installation and Deployment
-When deploying this software on Raspberry Pi Zero, all of the softwares should be
-ran in their own screen session. Crontab can be used to automatically deploy scripts on reboot.
-
-Make sure that the device is connected to gateway which acts as an MQTT broker.
-
-**Check configurations and read all of the documentation before deployment**
-
-Deployment process:
-```
-1. Start blesniffer-python
-2. Start presenceparser
-3. Start mqtt-client
-```

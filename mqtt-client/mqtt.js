@@ -1,6 +1,6 @@
 var mqtt = require('mqtt');
-var mqttclient  = mqtt.connect('mqtt://localhost');
-var mqtttopic = "resourcedata";
+var mqttclient  = mqtt.connect(mqttaddress);
+var mqtttopic = config.mqtttopic;
 
 var redis = require("redis");
 var redissub = redis.createClient();
@@ -8,6 +8,7 @@ var redissub = redis.createClient();
 var fs = require('fs');
 var path = require("path");
 var config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'configurations.conf'), 'utf8'));
+var mqttaddress = config.mqttbroker;
 
 var homegroups = followHomegroups();
 
