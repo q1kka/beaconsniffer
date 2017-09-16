@@ -28,6 +28,7 @@ sudo apt-get install oracle-java8-jdk -y
 echo "Downloading and installing nodejs & npm"
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb
 sudo dpkg -i node_latest_armhf.deb
+rm node_latest_armhf.deb
 echo "Downloading and installing node dependencies"
 sleep 2
 sudo npm install mqtt --save
