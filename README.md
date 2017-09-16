@@ -9,7 +9,7 @@ on the external JSON file. Configurations must be saved on the root directory of
 Template for beacon configurations is provided in this repository.
 ID2 and ID3 should be specified according to beacon firmware configuration.
 
-```JSON
+```
 {
     "beacons": {
         "beacon1": {
