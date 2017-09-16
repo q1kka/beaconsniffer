@@ -1,5 +1,5 @@
 var mqtt = require('mqtt');
-var mqttclient  = mqtt.connect("mqtt://192.168.33.1");
+var mqttclient  = mqtt.connect("mqtt://localhost");
 
 var redis = require("redis");
 var redissub = redis.createClient();
