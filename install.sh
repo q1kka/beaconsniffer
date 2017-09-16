@@ -39,7 +39,7 @@ sleep 3
 clear
 read -p "Automatically start scripts on boot? (y/n)?" choice
 case "$choice" in
-  y|Y ) ./startonboot.sh;;
+  y|Y ) crontab.sh;;
   n|N ) echo "skipped crontab editing";;
   * ) echo "invalid";;
 esac
