@@ -25,32 +25,30 @@ case nice and smooth, cord of the adaptor needs to be cut and power given to Ras
 
 ![Hardware in the case](/doc/hardware1.png)
 
+## Installation and deployment
+To easily install and deploy this prototype proceed as following:
+```
+1.  Install fresh raspbian distro
+2.  Change default passwd
+3.  Configure networking
+4.  Install git
+5.  git clone https://github.com/q1kka/beaconsniffer-v2.
+6.  cd beaconsniffer-v2/
+7.  cp template.conf configurations.conf
+8.  Modify configurations in configurations.conf (see next section)
+9.  ./install.sh
+
+```
+Installation script takes care of dependencies and crontab automatically. When installation
+is done, device must be rebooted.
+
 ## Configurations
-### Beacon configurations
-RadBeacons can be configured with mobile app available on Android from Google Play. Following configurations
-are for reference:
-
-```
-iBeacon: OFF
-AltBeacon: ON
-Eddystone UID: OFF
-Eddystone URL: OFF
-MAJOR ID: 32001 (see "beacon provision" below)
-MINOR ID: 1
-ADVERTISING RATE: 1 (latency vs battery life)
-TRANSMIT POWER: -10 (coverage vs battery life)
-```
-
-When determining optimal transmit power and advertising rate, couple things should be taken in to 
-consideration. These things include physical location of the prototype and typical location of keychains
-when the resident is home. Best results are achieved when doing throughout testing and configurations at 
-the same time.
-
-All of the software components use the same beacon configurations. These configurations are stored
+All of the software components use the same beacon configurations. When implementing additional
+software components this guideline should be followed. These configurations are stored
 on the external JSON file. Configurations must be saved on the root directory of the codes.
 
 Template for beacon configurations is provided in this repository.
-ID2 and ID3 should be specified according to beacon firmware configuration.
+ID2 and ID3 should be specified according to beacon firmware configuration. (see next section)
 
 ```
 {
@@ -62,38 +60,41 @@ ID2 and ID3 should be specified according to beacon firmware configuration.
         },
         ...
     },
-    "relay": "beaconsniffer-x", // Define relay ID for platform provisioning
-    "mqttbroker": "192.168.33.1", // Define mqtt broker if client is used
-    "mqtttopic": "resourcedata"// MQTT topic in which data will be published to
+    "relay": "beaconsniffer-x", // Define beaconsniffer identifier
+    "mqttbroker": "192.168.33.1", // Used only if mqtt is enabled
+    "mqtttopic": "resourcedata"// Used only if mqtt is enabled
 }
 ```
-## Installation and deployment
-To easily install this software to raspberry pi zero proceed as following:
-```
-1.  Install fresh raspbian distro
-2.  Change default passwd
-3.  Configure networking
-4.  Install git
-5.  git clone https://github.com/q1kka/beaconsniffer-v2.
-6.  cd beaconsniffer-v2/
-7.  cp template.conf configurations.conf
-8.  Modify configurations in configurations.conf
-9.  ./install.sh
+
+### Beacon configurations
+RadBeacons can be configured with mobile app available on Android from Google Play. Following configurations
+are for reference:
 
 ```
-Installation script takes care of dependencies and crontab automatically. When installation
-is done, device must be rebooted.
+iBeacon: OFF
+AltBeacon: ON
+Eddystone UID: OFF
+Eddystone URL: OFF
+ADVERTISING RATE: 1 (latency vs battery life)
+TRANSMIT POWER: -10 (coverage vs battery life)
+```
 
-## Homegroup & Minor ID
-Homegroup (ID2) provisions beacons under identifier specified in beacons firmware.
+When determining optimal transmit power and advertising rate, couple things should be taken in to 
+consideration. These things include physical location of the prototype and typical location of keychains
+when the resident is home. Best results are achieved when doing throughout testing and configurations at 
+the same time.
+
+AltBeacon major and minor identifiers are used for provisioning purposes.
+Major ID (ID2) identifies group in which beacon belongs to.
 Minor ID (ID3) identifies unique beacon.
 
 For example: If one wants to track two beacons belonging to one project,
 firmware configurations on the beacon should be as following:
-
-Beacon 1:  ID2 - 32201, ID3 - 1
+```
+Beacon 1: ID2 - 32201, ID3 - 1
 Beacon 2: ID2 - 32201, ID3 - 2
-
-If further provision is needed, one can add more beacons and use different homegroup.
-These configurations must be correct and double checked to prevent any problems on compatibility between software.
-All of the software components must support multiple homegroups at the same time.
+```
+If further provision is needed, one can add more beacons and use different groups.
+These configurations must be correct and double checked to prevent any compatibility 
+issues between software components. Every implemented software component must implement the 
+logic enabling tracking of multiple groups at the same time.
