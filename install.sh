@@ -35,14 +35,3 @@ sudo npm install mqtt --save
 sudo npm install redis
 sudo npm install forever -g
 echo "Dependencies satisfied, proceed to configuration"
-sleep 3
-clear
-read -p "Automatically start scripts on boot? (y/n)?" choice
-case "$choice" in
-  y|Y ) crontab.sh;;
-  n|N ) echo "skipped crontab editing";;
-  * ) echo "invalid";;
-esac
-clear
-read -p "Installation done, press enter to reboot"
-sudo reboot -h now

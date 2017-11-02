@@ -48,10 +48,11 @@ To easily install and deploy this prototype proceed as following:
 7.  cp template.conf configurations.conf
 8.  Modify configurations in configurations.conf (see next section)
 9.  ./install.sh
+10  ./crontab.sh
 
 ```
-Installation script takes care of dependencies and crontab automatically. When installation
-is done, device must be rebooted.
+Installation scripts takes care of dependencies and auto start on reboot automatically. 
+When installation is done, device must be rebooted.
 
 ## Configurations
 All of the software components use the same beacon configurations. When implementing additional
