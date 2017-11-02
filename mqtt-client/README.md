@@ -1,9 +1,9 @@
 # MQTT-client
-This node.js code listens for redis publishes from presenceparser. When message is received
-nicely formatted JSON is parsed and sent to MQTT broker on the gateway device.
+This javascript code listens for redis publishes from presenceparser. When message is received
+nicely formatted JSON is parsed and sent to MQTT broker defined in the configurations.
 
 ## Dependecies
-Following dependencies must be installed before deployment:
+Following dependencies must be satisfied before deployment:
 ```
 sudo apt-get install nodejs
 sudo apt-get install npm
@@ -12,12 +12,7 @@ sudo npm install mqtt --save
 sudo npm install redis
 ```
 
-## Deployment
-**Before deployment define MQTT broker address on the script file:** 
-```javascript
-var mqttclient  = mqtt.connect('mqtt://localhost');
-var mqtttopic = "resourcedata";
-```
+## Standalone deployment
 Execute following command on the script directory to start:
 ```
 forever start mqtt.js
