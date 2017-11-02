@@ -32,7 +32,7 @@ To easily install and deploy this prototype proceed as following:
 2.  Change default passwd
 3.  Configure networking
 4.  Install git
-5.  git clone https://github.com/q1kka/beaconsniffer-v2.
+5.  git clone https://github.com/q1kka/beaconsniffer-v2
 6.  cd beaconsniffer-v2/
 7.  cp template.conf configurations.conf
 8.  Modify configurations in configurations.conf (see next section)
@@ -98,3 +98,5 @@ If further provision is needed, one can add more beacons and use different group
 These configurations must be correct and double checked to prevent any compatibility 
 issues between software components. Every implemented software component must implement the 
 logic enabling tracking of multiple groups at the same time.
+
+## Monitoring
