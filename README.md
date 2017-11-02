@@ -47,19 +47,19 @@ To easily install and deploy this prototype proceed as following:
 6.  cd beaconsniffer-v2/
 7.  cp template.conf configurations.conf
 8.  Modify configurations in configurations.conf (see next section)
-9.  ./install.sh
-10  ./crontab.sh
+9.  ./dependencies.sh
+10  ./modules.sh
 
 ```
-Installation scripts takes care of dependencies and auto start on reboot automatically. 
-When installation is done, device must be rebooted.
+Installation scripts takes care of dependencies and auto-starting of enabled modules on 
+on boot. When installation is done, device must be rebooted.
 
 ## Configurations
-All of the software components use the same beacon configurations. When implementing additional
-software components this guideline should be followed. These configurations are stored
-on the external JSON file. Configurations must be saved on the root directory of the codes.
+All of the modules share the same beacon configurations. When implementing additional
+modules this guideline should be strictly followed. These configurations are stored
+on the external JSON file. Configurations must be saved on the parent directory of the module.
 
-Template for beacon configurations is provided in this repository.
+Template for module configurations is provided in this repository.
 ID2 and ID3 should be specified according to beacon firmware configuration. (see next section)
 
 ```
