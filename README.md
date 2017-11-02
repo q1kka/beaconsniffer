@@ -2,15 +2,46 @@
 
 Beaconsniffer is a device prototype that listens for Bluetooth Low Energy advertisement beacons sent by
 keyfob-beacon and determines presence from raw data. Presence information can be published to MQTT topic
-in JSON format for further usage and integrations.
+in JSON format for further usage and integrations. Beaconsniffer is built on Raspberry Pi Zero.
 
 ![Beaconsniffer](/doc/bsniffer.png)
 
 ## Beacons
+This prototype is currently compatible with keyfob-beacons that can be configured to send advertisement
+packages in AltBeacon format. Suggested beacon is [RadBeacon Dot](/). Cheaper unbranded beacons can be
+unreliable and have poor battery life.
 
-## Casing
+Beacon is attached to keychain of monitored person. In ideal use case the keychain always leaves the
+apartment with the resident and it can be used to efficiently determine presence status with minimal latencies.
+Quality keyfob sensor has battery life of years.
+ 
+## Hardware & Casing
+![3D Model](/doc/model.png)
+
+3D models for the casing can be found in this repository. Models are given in .stl format for
+easy slicing and printing.
 
 ## Configurations
+### Beacon configurations
+RadBeacons can be configured with mobile app available on Android from Google Play. Following configurations
+are for reference:
+
+```
+iBeacon: OFF
+AltBeacon: ON
+Eddystone UID: OFF
+Eddystone URL: OFF
+MAJOR ID: 32001 (see "beacon provision" below)
+MINOR ID: 1
+ADVERTISING RATE: 1 (latency vs battery life)
+TRANSMIT POWER: -10 (coverage vs battery life)
+```
+
+When determining optimal transmit power and advertising rate, couple things should be taken in to 
+consideration. These things include physical location of the prototype and typical location of keychains
+when the resident is home. Best results are achieved when doing throughout testing and configurations at 
+the same time.
+
 All of the software components use the same beacon configurations. These configurations are stored
 on the external JSON file. Configurations must be saved on the root directory of the codes.
 
