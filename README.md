@@ -16,7 +16,7 @@ apartment with the resident and it can be used to efficiently determine presence
 Quality keyfob sensor has battery life of years.
  
 ## Hardware & Casing
-![3D Model](/doc/model.png)
+![3D Model](/doc/model.png) ![Power via GPIO](/doc/powerviagpio.jpg) ![Hardware inside the casing](/doc/hardwareincasejpg.jpg)
 
 3D models for the casing can be found in this repository. Models are given in .stl format for
 easy slicing and printing.
