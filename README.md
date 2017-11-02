@@ -4,7 +4,7 @@ Beaconsniffer is a device prototype that listens for Bluetooth Low Energy advert
 keyfob-beacon and determines presence from raw data. Presence information can be published to MQTT topic
 in JSON format for further usage and integrations.
 
-![Beaconsniffer](/doc/beaconsniffer.png)
+![Beaconsniffer](/doc/bsniffer.png)
 
 ## Beacons
 
