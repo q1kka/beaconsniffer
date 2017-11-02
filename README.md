@@ -16,10 +16,14 @@ apartment with the resident and it can be used to efficiently determine presence
 Quality keyfob sensor has battery life of years.
  
 ## Hardware & Casing
-![3D Model](/doc/model.png) ![Power via GPIO](/doc/powerviagpio.jpg) ![Hardware inside the casing](/doc/hardwareincasejpg.jpg)
-
 3D models for the casing can be found in this repository. Models are given in .stl format for
 easy slicing and printing.
+
+The casing is designed to fit Raspberry Pi Zero and basic EU power adaptor.
+Power adaptor used in the prototype is "LA-520W" model from PiHut. To fit everything in the
+case nice and smooth, cord of the adaptor needs to be cut and power given to Raspberry Pi via GPIO.
+
+![Hardware in the case](/doc/hw.png)
 
 ## Configurations
 ### Beacon configurations
