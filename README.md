@@ -4,6 +4,17 @@ Beaconsniffer is a device prototype that listens for Bluetooth Low Energy advert
 keyfob-beacon and determines presence from raw data. Presence information can be published to MQTT topic
 in JSON format for further usage and integrations. Beaconsniffer is built on Raspberry Pi Zero.
 
+This prototype is modular and more modules can be implemented to extend functionality. Every module
+has it's own documentation in the corresponding subfolder.
+
+Currently implemented modules:
+
+| Module            | Functionality                             |
+|:------------------|:------------------------------------------|
+| blesniffer        | listens for advertisement packages        |
+| presenceparser    | determines presence from raw data         |
+| mqtt-client       | publish presence changes to MQTT broker   |
+
 ![Beaconsniffer](/doc/bsniffer.png)
 
 ## Beacons
@@ -100,3 +111,13 @@ issues between software components. Every implemented software component must im
 logic enabling tracking of multiple groups at the same time.
 
 ## Monitoring
+```
+// List running modules
+screen -r
+
+// To see module output 
+screen -r <ID>
+
+// Monitor redis database connecting modules
+redis-cli monitor
+```
