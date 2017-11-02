@@ -1,8 +1,16 @@
 # Beaconsniffer v2
-This repository contains software for Beaconsniffer v2. It consists of three modular software components
-which uses Redis as an interface for data pipelining.
 
-## Beacon configurations
+Beaconsniffer is a device prototype that listens for Bluetooth Low Energy advertisement beacons sent by
+keyfob-beacon and determines presence from raw data. Presence information can be published to MQTT topic
+in JSON format for further usage and integrations.
+
+![Beaconsniffer](/doc/beaconsniffer.png)
+
+## Beacons
+
+## Casing
+
+## Configurations
 All of the software components use the same beacon configurations. These configurations are stored
 on the external JSON file. Configurations must be saved on the root directory of the codes.
 
