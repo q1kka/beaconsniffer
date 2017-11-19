@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Start beaconsniffer v2 installation?"
 read -p "Press enter to continue"
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update -y && sudo apt-get upgrade -y
 git pull
 clear
 echo "Done updating. Satisfying dependencies..."
