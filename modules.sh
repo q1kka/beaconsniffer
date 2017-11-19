@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
-
-read -p "Use blesniffer module? (y/n)?" CONT
-if [ "$CONT" = "y" ]; then
-    crontab -l > cron
-    #echo new cron into cron file
-    echo "@reboot screen -S blesniffer -dm sh -c 'sleep 15; python /home/pi/beaconsniffer-v2/blesniffer-python/beaconsniffer.py; exec bash'" >> cron
-    #install new cron file
-    crontab cron
-else
-  echo "ble sniffer not used";
-fi
-
+crotab -r
 read -p "Use presenceparser module? (y/n)=" PARSER
 if [ "$PARSER" = "y" ]; then
     crontab -l > cron

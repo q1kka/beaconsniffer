@@ -4,54 +4,57 @@
 import commands
 import json
 import os
-import redis
 import time
 from subprocess import Popen, PIPE
 
+import redis
+
 # network stack settings for ble interface
 hci = "hci0"
-hcidump = ['sudo', 'hcidump', '-i', hci, '--raw']
+hcidump = ['sudo', 'hcidump', '-i', hci, '--raw > /dev/null &']
 hcitool = "sudo hcitool -i " + hci + " lescan --whitelist --duplicates > /dev/null &"
 
-# local redis database
+# local redis database connection
 red = redis.StrictRedis(host='localhost', port=6379, db=0)
+# minimun interval between consecutive redis set
+beaconInterval = 5000L
 
-fileDir = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
+# load configurations from parent directory
+fileDir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 filename = os.path.join(fileDir, 'configurations.conf')
 config = [filename]
 
 # identifiers is "ID2-ID3"
 macs, reversemacs, identifiers = [[], [], []]
-
-# minimun interval between consecutive redis set
-beaconInterval = 5000L
-
 lastseentime = []
 
 
 def main():
     try:
-        if hciStart() != 0:
+        if hcistart() != 0:
             configjson = readjson(config[0])
             if configjson != 0:
-                parsefromjson(configjson["beacons"])
+                setconfig(configjson["beacons"])
+                # Format last seen arrays for every followed beacon
                 for i in range(len(macs)):
                     lastseentime.append(0L)
-                configurewhitelist()
+                # Configure hci stack
+                configurehci()
+                # Start ble scan & dump
                 os.system(hcitool)
-                print timeprint() + " " + "lescan started."
+                print timeprint() + " " + "lescan process started."
                 rawdump = start(hcidump)
                 if rawdump != 0:
                     print timeprint() + " " + "rawdump started."
-                    sniffer(rawdump)
+                sniffer(rawdump)
     except Exception, e:
         print timeprint() + " " + "Error in main(): " + str(e)
     finally:
         os.system("sudo pkill --signal SIGINT hcitool")
 
 
-# Parse configurations from external config file.
-def parsefromjson(configjson):
+# Parse beacon configurations from external config file.
+def setconfig(configjson):
     keys = configjson.keys()
     keys.sort()
     for i in range(len(keys)):
@@ -70,13 +73,13 @@ def parsefromjson(configjson):
 
 
 # Add followed MAC addresses to hcitool whitelist
-def configurewhitelist():
+def configurehci():
     try:
-        os.system("sudo hcitool lewlclr")
+        os.system("sudo hcitool lewlclr > /dev/null &")
         print timeprint() + " " + "whitelist cleared."
         for mac in macs:
             if len(mac) == 17:
-                os.system("sudo hcitool lewladd " + mac)
+                os.system("sudo hcitool lewladd " + mac + "> /dev/null &")
                 print timeprint() + " " + mac + " added to whitelist."
             else:
                 print timeprint() + " " + mac + " false mac."
@@ -99,7 +102,8 @@ def sniffer(rawdump):
                         if reversemacs[i] in line:
                             if lastseentime[i] + beaconInterval < tnow:
                                 lastreceived = (tnow - lastseentime[i]) / 1000
-                                print timeprint() + "- New advertisement beacon from: " + macs[i] + " - seconds from last message: " + str(lastreceived)
+                                print timeprint() + "- New advertisement beacon from: " + macs[
+                                    i] + " - seconds from last message: " + str(lastreceived)
                                 ids = identifiers[i].split("-")
                                 red.publish(ids[0], ids[1] + "-" + str((int(time.time()))))
                                 lastseentime[i] = tnow
@@ -116,7 +120,7 @@ def sniffer(rawdump):
             time.sleep(0.1)
 
 
-def hciStart():
+def hcistart():
     try:
         if "UP RUNNING" not in commands.getstatusoutput('hciconfig ' + hci)[1]:
             i = 0
@@ -124,14 +128,14 @@ def hciStart():
                 print hci + " RESTARTING"
                 i += 1
                 if i == 30:
-                    os.system("sudo /etc/init.d/bluetooth restart && sudo hciconfig " + hci + " up")
+                    os.system("sudo /etc/init.d/bluetooth restart && sudo hciconfig " + hci + " up > /dev/null &")
                     i = 0
                 time.sleep(10)
             if "UP RUNNING" not in commands.getstatusoutput('hciconfig ' + hci)[1]:
                 print hci + " UP RUNNING"
         return 1
     except Exception, e:
-        print u"Error in hciStart(): " + str(e)
+        print u"Error in hcistart(): " + str(e)
         return 0
 
 

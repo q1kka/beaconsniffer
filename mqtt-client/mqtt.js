@@ -19,7 +19,7 @@ function followHomegroups() {
     }
     var unique = arr.filter(function(elem, index, self) {
         return index == self.indexOf(elem);
-    })
+    });
 
     for(i = 0; i < unique.length; i++){
         redissub.subscribe(unique[i] + "-parsed");
