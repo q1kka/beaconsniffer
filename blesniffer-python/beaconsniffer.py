@@ -11,7 +11,7 @@ import redis
 
 # network stack settings for ble interface
 hci = "hci0"
-hcidump = ['sudo', 'hcidump', '-i', hci, '--raw > /dev/null &']
+hcidump = ['sudo', 'hcidump', '-i', hci, '--raw']
 hcitool = "sudo hcitool -i " + hci + " lescan --whitelist --duplicates > /dev/null &"
 
 # local redis database connection
@@ -75,11 +75,11 @@ def setconfig(configjson):
 # Add followed MAC addresses to hcitool whitelist
 def configurehci():
     try:
-        os.system("sudo hcitool lewlclr > /dev/null &")
+        os.system("sudo hcitool lewlclr")
         print timeprint() + " " + "whitelist cleared."
         for mac in macs:
             if len(mac) == 17:
-                os.system("sudo hcitool lewladd " + mac + "> /dev/null &")
+                os.system("sudo hcitool lewladd " + mac)
                 print timeprint() + " " + mac + " added to whitelist."
             else:
                 print timeprint() + " " + mac + " false mac."
@@ -128,7 +128,7 @@ def hcistart():
                 print hci + " RESTARTING"
                 i += 1
                 if i == 30:
-                    os.system("sudo /etc/init.d/bluetooth restart && sudo hciconfig " + hci + " up > /dev/null &")
+                    os.system("sudo /etc/init.d/bluetooth restart && sudo hciconfig " + hci + " up")
                     i = 0
                 time.sleep(10)
             if "UP RUNNING" not in commands.getstatusoutput('hciconfig ' + hci)[1]:
