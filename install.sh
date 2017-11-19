@@ -8,6 +8,7 @@ echo "Done updating. Satisfying dependencies..."
 ./dependencies.sh
 clear
 echo "Dependencies satisfied, proceed to module configuration"
+sleep 3
 ./modules.sh
 clear
 echo "Installation done, rebooting in 5sec.."
