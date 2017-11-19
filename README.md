@@ -47,9 +47,7 @@ To easily install and deploy this prototype proceed as following:
 6.  cd beaconsniffer-v2/
 7.  cp template.conf configurations.conf
 8.  Modify configurations in configurations.conf (see next section)
-9.  ./dependencies.sh
-10  ./modules.sh
-
+9.  ./install.sh
 ```
 Installation scripts takes care of dependencies and auto-starting of enabled modules on 
 on boot. When installation is done, device must be rebooted.
