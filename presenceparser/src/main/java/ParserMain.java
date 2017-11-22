@@ -17,22 +17,19 @@ import java.util.Date;
  * @author Kai-Markus Lehtimäki
  * @version 16.09.2017
  */
-public class ParserMain {
-    // parser.Beacon configurations
-    private static String configurationFile = "configurations.conf";
-
+class ParserMain {
     // Redis configurations
     private static final String JEDIS_SERVER = "localhost";
 
-    private static ArrayList<Beacon> followedBeacons = new ArrayList<Beacon>();
-    private static ArrayList<Integer> followedHomegroups = new ArrayList<Integer>();
+    private static ArrayList<Beacon> followedBeacons = new ArrayList<>();
+    private static ArrayList<Integer> followedHomegroups = new ArrayList<>();
 
     /**
      * Read configurations from conf file, start the program.
      */
     public static void main(String[] args) {
-        // Add beacons to be followed from symlinked configurations
-        followedBeacons = parseConfigurations(configurationFile);
+        // Add beacons to be followed
+        followedBeacons = parseConfigurations();
         followedHomegroups = parseHomegroups(followedBeacons);
         // Start listening for Redis messages
         startSubscriber();
@@ -54,17 +51,17 @@ public class ParserMain {
     }
 
     /**
-     * This function reads beacon configurations from files and returns list of beacon objects.
-     * @param configurationFile
-     * @return
+     * This function reads beacon configurations from configuration file and returns list of beacon objects.
+     * @return List of followed beacons
      */
-    private static ArrayList<Beacon> parseConfigurations(String configurationFile){
+    private static ArrayList<Beacon> parseConfigurations(){
         JSONParser parser = new JSONParser();
-        ArrayList<Beacon> beaconList = new ArrayList<Beacon>();
+        ArrayList<Beacon> beaconList = new ArrayList<>();
+        // Get configurations from parent folder
         File currentDir = new File(".");
         String filePath = currentDir.getAbsolutePath();
         filePath = filePath.substring(0, filePath.lastIndexOf("presenceparser/."));
-        File configFile = new File(filePath + configurationFile);
+        File configFile = new File(filePath + "configurations.conf");
         try {
             Object obj = parser.parse(new FileReader(configFile));
             JSONObject jsonObject =  (JSONObject) obj;
@@ -73,10 +70,11 @@ public class ParserMain {
                 JSONObject beaconObj = (JSONObject) beacons.get("beacon" + i);
                 int id2 = Integer.parseInt(beaconObj.get("id2").toString());
                 int id3 = Integer.parseInt(beaconObj.get("id3").toString());
+                int absentInterval = Integer.parseInt(beaconObj.get("absentInterval").toString());
                 String mac = beaconObj.get("mac").toString();
-                Beacon newBeacon = new Beacon(id3, id2, mac);
+                Beacon newBeacon = new Beacon(id3, id2, mac, absentInterval);
                 beaconList.add(newBeacon);
-                System.out.println("parser.Beacon: " + mac + " - " + id3 + "-" + id2 + " added");
+                System.out.println("Beacon: " + mac + " - " + id3 + "-" + id2 + " added to be followed");
             }
         } catch (Exception e) {
             System.out.println("FATAL: Configuration file with valid syntax not found.");
@@ -84,30 +82,27 @@ public class ParserMain {
         return beaconList;
     }
 
-    private static JedisPubSub startSubscriber() {
+    private static void startSubscriber() {
         final JedisPubSub jedisPubSub = new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
                 parseMessage(channel, message);
             }
         };
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    printWithTime("Connected to: " + JEDIS_SERVER + " redis server");
-                    Jedis jedis = new Jedis(JEDIS_SERVER);
-                    for (Integer id: followedHomegroups){
-                        jedis.subscribe(jedisPubSub, id.toString());
-                    }
-                    printWithTime("Subscribe returned, closing down");
-                    jedis.quit();
-                } catch (Exception e) {
-                    printWithTime("Error in redis subscribe: " + e.getMessage());
-                    // e.printStackTrace();
+        new Thread(() -> {
+            try {
+                printWithTime("Connected to: " + JEDIS_SERVER + " redis server");
+                Jedis jedis = new Jedis(JEDIS_SERVER);
+                for (Integer id: followedHomegroups){
+                    jedis.subscribe(jedisPubSub, id.toString());
                 }
+                printWithTime("Subscribe returned, closing down");
+                jedis.quit();
+            } catch (Exception e) {
+                printWithTime("Error in redis subscribe: " + e.getMessage());
+                // e.printStackTrace();
             }
         }, "subscriberThread").start();
-        return jedisPubSub;
     }
 
     private static void printWithTime(String message) {
@@ -115,10 +110,9 @@ public class ParserMain {
     }
 
     /**
-     * Parse presence values redis publish payload
-     *
+     * Parse presence values from redis publish payload
      * @param message redis payload to parse from
-     * @param channel homegroup in which message is sent
+     * @param channel homegroup in which the message is sent
      */
     private static void parseMessage(String channel, String message) {
         int homeGroup = Integer.parseInt(channel);
@@ -136,10 +130,9 @@ public class ParserMain {
     /**
      * @return Current timestamp in format:
      */
-    public static String getCurrentTimeStamp() {
+    private static String getCurrentTimeStamp() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
-        String strDate = sdfDate.format(now);
-        return strDate;
+        return sdfDate.format(now);
     }
 }

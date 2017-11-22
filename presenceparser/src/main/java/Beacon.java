@@ -6,21 +6,32 @@ import java.util.Timer;
 import java.util.TimerTask;
 import redis.clients.jedis.Jedis;
 
-public class Beacon {
-    private int id;
-    private int homegroup;
-    private String mac;
-    private ArrayList<Long> presenceData;
-    private boolean presence = false;
-    private int absentInterval = 10;
-    private int checkInterval = 10;
-    private String JEDIS_SERVER = "localhost";
+/**
+ * This class contains logic and data of followed beacon. Each beacon object determines
+ * its state according to raw data and defined configurations. Beacon object publishes its
+ * state changes to redis topic.
+ * @author Kai-Markus Lehtimäki
+ * @version 22.11.2017
+ */
+class Beacon {
+    private int absentInterval = 15;
+    private final String JEDIS_SERVER = "localhost";
 
-    public Beacon(int minorID, int homegroup, String mac) {
+    private final int id;
+    private final int homegroup;
+    private final String mac;
+    private final ArrayList<Long> presenceData;
+    private boolean presence = false;
+
+    /**
+     * Default constructor for beacon object
+     */
+    public Beacon(int minorID, int homegroup, String mac, int absentInterval) {
         this.id = minorID;
         this.homegroup = homegroup;
         this.mac = mac;
-        presenceData = new ArrayList<Long>();
+        this.absentInterval = absentInterval;
+        presenceData = new ArrayList<>();
         Timer tm = new Timer();
         class PresenceCheckTask extends TimerTask {
             public PresenceCheckTask(){
@@ -33,6 +44,8 @@ public class Beacon {
 
         //Check presence every 10 secs
         PresenceCheckTask ct = new PresenceCheckTask();
+        //Check interval in seconds
+        int checkInterval = 10;
         tm.scheduleAtFixedRate(ct, (checkInterval * 1000), (checkInterval * 1000));
     }
 
@@ -42,27 +55,24 @@ public class Beacon {
      * @param message Message to be published
      */
     private void publishRedis(Integer channel, String message){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Jedis jedis = new Jedis(JEDIS_SERVER);
-                    String publishChannel = channel + "-parsed";
-                    jedis.publish(publishChannel, message);
-                    jedis.quit();
-                } catch (Exception e) {
-                    printWithTime("Error: " + e.getMessage());
-                }
+        new Thread(() -> {
+            try {
+                Jedis jedis = new Jedis(JEDIS_SERVER);
+                String publishChannel = channel + "-parsed";
+                jedis.publish(publishChannel, message);
+                jedis.quit();
+            } catch (Exception e) {
+                printWithTime("Error: " + e.getMessage());
             }
         }, "redisPublisherThread").start();
 
     }
+
     /**
-     * Compare current time and last seen time from raw data. If not seen in X time mark as absent.
-     * @param absentInterval If not seen in absentInterval mark as absent.
-     * @return true if present, false if absent.
+     * Compare current time and last seen time from raw data. If not seen in X time mark as absent
+     * and publish state change to redis topic.
      */
-    private boolean checkPresence() {
+    private void checkPresence() {
         long nowEpoc = Instant.now().getEpochSecond();
         long lastPresence = 0;
         if (presenceData.size() != 0){
@@ -76,19 +86,18 @@ public class Beacon {
             }
             presence = false;
         }
-        return presence;
     }
 
     public int getID() {
         return this.id;
     }
 
-    public String getMAC() {
-        return this.mac;
-    }
-
     public int getHomegroup(){ return this.homegroup; }
 
+    /**
+     * This method sets new last seen timestamp to beacon object
+     * @param timestamp last seen epoc timestamp
+     */
     public void addData(long timestamp) {
         presenceData.add(timestamp);
         if(!presence){
@@ -98,18 +107,20 @@ public class Beacon {
         presence = true;
     }
 
-
     private static void printWithTime(String message){
         System.out.println(getCurrentTimeStamp() + " | " + message);
     }
 
     /**
-     * @return Current timestamp in format:
+     * @return Current timestamp
      */
-    public static String getCurrentTimeStamp() {
+    private static String getCurrentTimeStamp() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
-        String strDate = sdfDate.format(now);
-        return strDate;
+        return sdfDate.format(now);
+    }
+
+    public String getMac() {
+        return mac;
     }
 }
