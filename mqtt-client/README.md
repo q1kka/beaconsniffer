@@ -1,6 +1,22 @@
 # MQTT-client
-This javascript code listens for redis publishes from presenceparser. When message is received
+This module listens for beacon state change redis publishes. When state change message is received,
 nicely formatted JSON is parsed and sent to MQTT broker defined in the configurations.
+
+## Output JSON format
+```
+{
+    "payload": {
+        "payload": "boolean",
+        "type": "string"
+    },
+    "connection": {
+        "devaddr": "string",
+        "lasthop": "string",
+        "relay": "string",
+        "timestamp": "string"
+    }
+}
+```
 
 ## Dependecies
 Following dependencies must be satisfied before deployment:
