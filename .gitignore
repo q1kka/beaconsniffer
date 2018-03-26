@@ -1,8 +1,5 @@
 .idea/
-/presenceparser-java/presenceparser-java.iml
-/presenceparser-java/target/
-/presenceparser/target/
-/presenceparser/presenceparser.iml
+*/target/
 /configurations.conf
-/node_modules/
-/mqtt-client/node_modules/
+*/node_modules/
+*.iml

@@ -21,7 +21,7 @@ beaconInterval = 5000L
 
 # load configurations from parent directory
 fileDir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-filename = os.path.join(fileDir, 'configurations.conf')
+filename = os.path.join(fileDir, 'beacons.conf')
 config = [filename]
 
 # identifiers is "ID2-ID3"
