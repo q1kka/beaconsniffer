@@ -10,8 +10,6 @@ Some parts of this prototype were implemented using funding provided by Tekes (B
 
 This repository contains all software and hardware related to the prototype.
 
-![Hardware in the case](/doc/hardware1.png)
-
 ## Architecture & Modules
 
 This prototype uses modular microservice architecture to achieve compatibility between different software components written in the language of chosing (that can be ran in Raspberry).
