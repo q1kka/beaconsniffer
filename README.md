@@ -1,8 +1,5 @@
-<h1 style="text-align:center">Beaconsniffer prototype</h1>
-<div style="display: flex; justify-content: space-around">
-<img style="width: 200px"src="doc/hardware1.png"></img>
-<img style="width: 200px"src="doc/bsniffer.png"></img>
-</div>
+<img src="doc/banner.png"></img>
+ 
 
 Beaconsniffer is a presence detector prototype built on Raspberry Pi Zero. This prototype tracks signals broadcasted by simple generic BLE sensors. These sensors can be used to track many things, such as presence, temperature and humidity.
 
@@ -13,6 +10,8 @@ Sensors were attached to the keychains of residents. In ideal use case the keych
 Some parts of this prototype were implemented using funding provided by Tekes (Business Finland. Beaconsniffer prototypes were used as a part of 5K smart city research by University of Jyväskylä.
 
 This repository contains all software and hardware related to the prototype.
+
+![Hardware in the case](/doc/hardware1.png)
 
 ## Architecture & Modules
 
