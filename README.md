@@ -1,21 +1,26 @@
-# Beaconsniffer v2
+# Beaconsniffer
 
-Beaconsniffer is a device prototype that listens for Bluetooth Low Energy advertisement beacons sent by
-keyfob-beacon and determines presence from raw data. Presence information can be published to MQTT topic
-in JSON format for further usage and integrations. Beaconsniffer is built on Raspberry Pi Zero.
+Beaconsniffer is a presence detector prototype built on Raspberry Pi Zero. This prototype tracks signals broadcasted by simple generic BLE sensors. These sensors can be used to track many things, such as presence of one or more residents inside the apartment.
 
-This prototype is modular and more modules can be implemented to extend functionality. Every module
-has it's own documentation in the corresponding subfolder.
+Some parts of this prototype were implemented using funding provided by Tekes (Business Finland). Beaconsniffer prototypes were used as a part of 5K smart city research by University of Jyväskylä.
+
+This repository contains all software and hardware related to the prototype.
+
+## Modules
+
+This prototype uses modular microservice architecture to achieve compatibility between different software components written in the language of chosing (that can be ran in Raspberry).
+
+This software uses [Redis](https://github.com/antirez/redis) as the way of communication between microservice modules. The only required module is ``blesniffer``, which listens to raw beacon data and publishes it to redis topic.
+
+Other modules can be implemented and used to transform or use the data provided by sniffer.
 
 Currently implemented modules:
 
 | Module            | Functionality                             |
 |:------------------|:------------------------------------------|
-| blesniffer        | listens for advertisement packages        |
-| presenceparser    | determines presence from raw data         |
-| mqtt-client       | publish presence changes to MQTT broker   |
-
-![Beaconsniffer](/doc/bsniffer.png)
+| blesniffer        | listens and publishes raw advertisement packages        |
+| presenceparser    | parses presence events from raw sniffer data         |
+| mqtt-client       | publish presence events to MQTT broker   |
 
 ## Beacons
 This prototype is currently compatible with keyfob-beacons that can be configured to send advertisement
