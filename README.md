@@ -1,5 +1,4 @@
-<img src="doc/banner.png"></img>
- 
+<img src="doc/beaconsniffer_banner.png"></img>
 
 Beaconsniffer is a presence detector prototype built on Raspberry Pi Zero. This prototype tracks signals broadcasted by simple generic BLE sensors. These sensors can be used to track many things, such as presence, temperature and humidity.
 
