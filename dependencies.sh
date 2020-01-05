@@ -10,9 +10,6 @@ sudo pip install redis
 echo "Downloading and installing Bluetooth stack"
 sleep 2
 sudo apt-get install bluez bluez-tools bluez-hcidump -y
-echo "Downloading and installing Java"
-sleep 2
-sudo apt-get install oracle-java8-jdk -y
 echo "Downloading and installing nodejs & npm"
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb
 sudo dpkg -i node_latest_armhf.deb
