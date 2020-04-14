@@ -17,6 +17,6 @@ sudo ln -fs /usr/local/bin/node
 sudo rm node_latest-armhf.deb
 echo "Downloading and installing node dependencies"
 sleep 2
-sudo npm install mqtt --save
-sudo npm install redis
+sudo npm install mqtt -g
+sudo npm install redis -g
 sudo npm install forever -g

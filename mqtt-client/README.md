@@ -1,8 +1,10 @@
 # MQTT-client
+
 This module listens for beacon state change redis publishes. When state change message is received,
 nicely formatted JSON is parsed and sent to MQTT broker defined in the configurations.
 
 ## Output JSON format
+
 ```
 {
     "payload": {
@@ -19,17 +21,21 @@ nicely formatted JSON is parsed and sent to MQTT broker defined in the configura
 ```
 
 ## Dependecies
+
 Following dependencies must be satisfied before deployment:
+
 ```
 sudo apt-get install nodejs
 sudo apt-get install npm
-sudo npm install forever
-sudo npm install mqtt --save
-sudo npm install redis
+sudo npm install forever -g
+sudo npm install mqtt -g
+sudo npm install redis -g
 ```
 
 ## Standalone deployment
+
 Execute following command on the script directory to start:
+
 ```
 forever start mqtt.js
 ```
